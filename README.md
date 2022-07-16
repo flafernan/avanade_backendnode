@@ -37,6 +37,25 @@ jobs:
     name: iniciando build e deploy
     runs-on: ubuntu-latest
     enviromments: production
+    steps:
+    - uses: actions/checkout@master
+    
+    - name: Configurando a versão do NodeJS
+      uses: actions/setup-node@v1
+      with: 
+        node-version: '16.x'
+    
+    - name: Estamos instalando dependênciass compilando o projeto
+      run: |
+        npm install
+        npm run build --if-preset
+    
+    - name: Publicando na Azure
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}$ 
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}$
+        package: .
 ```
 
 
